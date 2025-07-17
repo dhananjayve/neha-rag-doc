@@ -1,0 +1,92 @@
+<div class="detail-container">
+  <!-- Debug info -->
+  <div style="background: #f0f0f0; padding: 10px; margin-bottom: 10px; font-family: monospace; font-size: 12px;">
+    <strong>Debug Info:</strong><br>
+    Loading: {{ loading }}<br>
+    Document: {{ document ? 'EXISTS' : 'NULL' }}<br>
+    Document ID: {{ documentId }}
+  </div>
+
+  <div class="header-actions">
+    <button mat-button routerLink="/documents">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Documents
+    </button>
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" (click)="downloadDocument()">
+        <mat-icon>download</mat-icon>
+        Download
+      </button>
+      @if (document?.status === 'pending') {
+        <button mat-raised-button color="accent" (click)="triggerIngestion()">
+          <mat-icon>sync</mat-icon>
+          Trigger Ingestion
+        </button>
+      }
+      <button mat-raised-button color="warn" (click)="deleteDocument()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Loading document...</p>
+    </div>
+  } @else if (document) {
+    <div class="document-content">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ document.title }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip [color]="getStatusColor(document.status)" selected>
+              {{ document.status }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="document-info">
+            <div class="info-section">
+              <h3>Content</h3>
+              <p>{{ document.content }}</p>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="info-section">
+              <h3>Document Details</h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">File Type:</span>
+                  <span class="value">{{ document.mimeType || 'Unknown' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Original Name:</span>
+                  <span class="value">{{ document.originalName || 'N/A' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Created:</span>
+                  <span class="value">{{ document.createdAt | date:'medium' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Last Updated:</span>
+                  <span class="value">{{ document.updatedAt | date:'medium' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Owner ID:</span>
+                  <span class="value">{{ document.ownerId || 'N/A' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  } @else {
+    <div class="loading-container">
+      <p>Document not found or failed to load.</p>
+    </div>
+  }
+</div> 

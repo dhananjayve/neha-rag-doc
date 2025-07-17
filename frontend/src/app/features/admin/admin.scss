@@ -1,0 +1,78 @@
+.admin-container {
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.overview-content {
+  padding: 20px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  height: 120px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+}
+
+.stat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #2196f3;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+}
+
+.stat-info p {
+  margin: 4px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.user-management-content {
+  padding: 20px 0;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  position: relative;
+  min-height: 400px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 100px;
+  text-align: center;
+}
+
+.settings-content {
+  padding: 20px 0;
+} 

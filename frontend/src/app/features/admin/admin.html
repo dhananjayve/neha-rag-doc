@@ -1,0 +1,142 @@
+<div class="admin-container">
+  <h1>Admin Panel</h1>
+  
+  <mat-tab-group>
+    <mat-tab label="Overview">
+      <div class="overview-content">
+        <div class="stats-grid">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-item">
+                <mat-icon class="stat-icon">people</mat-icon>
+                <div class="stat-info">
+                  <h3>{{ stats().totalUsers }}</h3>
+                  <p>Total Users</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-item">
+                <mat-icon class="stat-icon">description</mat-icon>
+                <div class="stat-info">
+                  <h3>{{ stats().totalDocuments }}</h3>
+                  <p>Total Documents</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-item">
+                <mat-icon class="stat-icon">storage</mat-icon>
+                <div class="stat-info">
+                  <h3>{{ formatStorage(stats().totalStorage) }}</h3>
+                  <p>Storage Used</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-item">
+                <mat-icon class="stat-icon">wifi</mat-icon>
+                <div class="stat-info">
+                  <h3>{{ stats().activeSessions }}</h3>
+                  <p>Active Sessions</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="User Management">
+      <div class="user-management-content">
+        <div class="actions-bar">
+          <button mat-raised-button color="primary">
+            <mat-icon>person_add</mat-icon>
+            Add User
+          </button>
+          <button mat-button (click)="refreshUsers()">
+            <mat-icon>refresh</mat-icon>
+            Refresh
+          </button>
+        </div>
+        
+        <div class="table-container">
+          <table mat-table [dataSource]="usersDataSource" matSort>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+              <td mat-cell *matCellDef="let user">
+                <mat-chip [color]="user.role === 'admin' ? 'warn' : 'primary'" selected>
+                  {{ user.role }}
+                </mat-chip>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let user">
+                <mat-chip [color]="user.status === 'active' ? 'primary' : 'warn'" selected>
+                  {{ user.status }}
+                </mat-chip>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+              <td mat-cell *matCellDef="let user">{{ user.createdAt | date:'short' }}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let user">
+                <button mat-icon-button>
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="userDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: userDisplayedColumns;"></tr>
+          </table>
+          
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="System Settings">
+      <div class="settings-content">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>System Configuration</mat-card-title>
+            <mat-card-subtitle>Manage system settings and preferences</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>System settings configuration will be implemented here.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div> 

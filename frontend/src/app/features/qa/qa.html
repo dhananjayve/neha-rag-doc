@@ -1,0 +1,79 @@
+<div class="qa-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Q&A with Your Documents</mat-card-title>
+      <mat-card-subtitle>Ask questions about your uploaded documents</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="chat-container">
+        <div class="messages" #messagesContainer>
+          @if (messages().length === 0) {
+            <div class="message system">
+              <div class="message-content">
+                <mat-icon>info</mat-icon>
+                <p>Welcome! Ask me anything about your documents. I'll search through your uploaded files to find relevant answers.</p>
+              </div>
+            </div>
+          }
+          
+          @for (message of messages(); track message.id) {
+            <div class="message" 
+                 [class.user]="message.question"
+                 [class.assistant]="message.answer">
+              <div class="message-content">
+                <div class="message-header">
+                  <mat-icon>{{ message.question ? 'person' : 'smart_toy' }}</mat-icon>
+                  <span class="message-sender">{{ message.question ? 'You' : 'Assistant' }}</span>
+                  <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+                </div>
+                
+                @if (message.question) {
+                  <div class="message-text">
+                    <p>{{ message.question }}</p>
+                  </div>
+                }
+                
+                @if (message.answer) {
+                  <div class="message-text">
+                    <p>{{ message.answer }}</p>
+                  </div>
+                }
+                
+                @if (message.isLoading) {
+                  <div class="loading-indicator">
+                    <mat-spinner diameter="20"></mat-spinner>
+                    <span>Thinking...</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <form [formGroup]="questionForm" (ngSubmit)="askQuestion()" class="question-form">
+          <mat-form-field appearance="outline" class="question-input">
+            <mat-label>Ask a question</mat-label>
+            <textarea matInput 
+                      formControlName="question" 
+                      rows="3"
+                      placeholder="What would you like to know about your documents?"
+                      (keydown.enter)="onEnterPress($event)"></textarea>
+            @if (questionForm.get('question')?.hasError('required')) {
+              <mat-error>Please enter a question</mat-error>
+            }
+          </mat-form-field>
+          
+          <button mat-raised-button 
+                  color="primary" 
+                  type="submit"
+                  [disabled]="questionForm.invalid || isAsking()">
+            <mat-icon>send</mat-icon>
+            Ask Question
+          </button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> 
